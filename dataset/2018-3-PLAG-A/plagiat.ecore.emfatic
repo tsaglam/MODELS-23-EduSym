@@ -1,0 +1,171 @@
+@namespace(uri="http://www.example.org/cbse", prefix="cbse")
+package cbse;
+
+abstract class Component {
+	attr String name;
+	val Behavior behavior;
+	ref ProvidedInterface[+] providedInterfaces;
+	ref RequiredInterface[*] requiredInterfaces;
+}
+
+abstract class ViewType {
+}
+
+abstract class ViewPoint {
+}
+
+abstract class ReturnType {
+}
+
+abstract class AbstractAction {
+}
+
+abstract class DataType extends ReturnType {
+	attr SimpleDataTypes dataType;
+}
+
+@OCL
+class System {
+	op void test();
+	val AllocationContext[*] allocationContexts;
+	ref AssemblyContext[*] assemblyContexts;
+	ref Interface[+] providedInterfaces;
+}
+
+class RepositoryViewType extends ViewType {
+	ref Component[*] components;
+	ref Interface[*] interfaces;
+}
+
+class AssemblyViewType extends ViewType {
+	ref AssemblyContext[*] assemblyContext;
+}
+
+class EnvironmentViewType extends ViewType {
+	ref ContainerLink[*] containerlink;
+}
+
+class AllocationViewType extends ViewType {
+	ref AllocationContext[*] allocationContexts;
+}
+
+class CompositeComponent extends Component {
+	ref AssemblyContext[*] assemblyContexts;
+}
+
+class LoopingAction extends AbstractAction {
+	ref AbstractAction[*] loopedActions;
+}
+
+class BranchingAction extends AbstractAction {
+	ref AbstractAction[*] branchedActions;
+}
+
+class ContainerLink {
+	attr String name;
+	ref Container[2..*] linkedContainers;
+}
+
+class Container {
+	attr String name;
+}
+
+class Interface {
+	attr String name;
+	val Signature[*] signatures;
+}
+
+class Signature {
+	attr String signatureName;
+	val Parameter[*] parameters;
+	ref ReturnType[1] returnType;
+}
+
+class Parameter {
+	attr String name;
+	ref DataType[1] dataType;
+}
+
+class AssemblyContext {
+	attr String name;
+	ref Component[1] component;
+}
+
+class SystemIndependentViewPoint extends ViewPoint {
+	ref RepositoryViewType[1] repositoryViewType;
+}
+
+class AssemblyViewPoint extends ViewPoint {
+	ref AssemblyViewType[1] assemblyViewType;
+}
+
+class DeploymentViewPoint extends ViewPoint {
+	ref EnvironmentViewType[1] environmentViewType;
+	ref AllocationViewType[1] allocationViewType;
+}
+
+class AllocationContext {
+	ref Container[1] container;
+	ref AssemblyContext[1] assemblycontext;
+}
+
+class ExternalCallingAction extends AbstractAction {
+	ref RequiredInterface requiredInterface;
+}
+
+class ProvidedInterface {
+	ref Interface[1] ~interface;
+}
+
+class RequiredInterface {
+	ref Interface[1] ~interface;
+}
+
+class Connector {
+	ref Interface ~interface;
+}
+
+class VoidReturnType extends ReturnType {
+}
+
+class BasicComponent extends Component {
+}
+
+class ProvidedDelegationConnector extends Connector {
+}
+
+class RequiredDelegationConnector extends Connector {
+}
+
+class AssemblyConnector extends Connector {
+}
+
+class InternalAction extends AbstractAction {
+}
+
+class Repository {
+	val Interface[*] interfaces;
+	val Component[*] components;
+}
+
+class Environment {
+	val ContainerLink[*] containerlink;
+}
+
+class Behavior {
+	val AbstractAction[*] actions;
+}
+
+enum SimpleDataTypes {
+	Boolean = 0;
+	Char = 1;
+	Date = 2;
+	Double = 3;
+	Float = 4;
+	List = 5;
+	Int = 6;
+	Long = 7;
+	Map = 8;
+	String = 9;
+}
+

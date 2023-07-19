@@ -1,0 +1,12 @@
+Dauer: ca. 5 Minuten
+
+Beschreiben Sie nun kurz (gerne auch Stichworte), wie Sie bei der Verschleierung vorgegangen sind. Welche Änderungsarten haben Sie eingesetzt?
+
+[ANTWORT]
+Hinzufügen von Dokumentation
+Ändern von Attributenamen. z.B. "name" zu "identifier"
+Entfernen redundanter Zwischenklassen, Attribute
+Ändern der Klassenamen, z.B. "Service" zu "ServiceImplementation"
+Ändern der Reihenfolge der EClasses innerhalb des Metamodells
+Ändern des Namens des Metamodells
+Redundante Erweiterung des Metamodells, z.B. unnötige Attribute

@@ -1,0 +1,17 @@
+Dauer: ca. 5 Minuten
+
+Beschreiben Sie nun kurz (gerne auch Stichworte), wie Sie bei der Verschleierung vorgegangen sind. Welche Änderungsarten haben Sie eingesetzt?
+
+[ANTWORT]
+1. Umbenennen von Objekte wird leicht identifizierbar sein, muss aber gemacht werden (sonst ist nicht realistisch). Habe paar Klassen in Plagiat-Version umbennant.
+2. Ich wuerde die OCLs komplett aendern (hier einfach paar OCLs geloescht), damit sie verschiedene aber aquivalente PL-Formeln sind.
+3. In einem oder zwei OCLs werde ich leichte "Fehler" einbauen, die die PLs nicht aquivalent machen, aber mein Modell nicht betreffent
+	zB Statt invariant ofOtherComponent: self.encapsulatedInstances -> select(instance | instance.instantiatedComponent = self)->size() = 0; 
+	das invariant ofOtherComponent: self.encapsulatedInstances -> select(instance | instance.instantiatedComponent = self)->size() >= -1;
+4. Paar objekte in andere Packages ziehen, zB CompositeComponent aus assembly nach repository
+5. Uebergeordnete struktur aendern, zB Package viewType entfernen und die Hierarchie Flach machen
+6. Core Package erstellen fuer NamedElement
+7. Bidirektionale Link unidirektional gemacht dort, wo es sinnvoll sein kann
+8. Dann noch die Attribute umbenennen
+9. Eine neue abstrakte Klasse erstellen
+10. Ein vorhandene abstrakte Klasse loeschen

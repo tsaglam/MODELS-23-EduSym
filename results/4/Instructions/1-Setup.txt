@@ -1,0 +1,9 @@
+Dauer: ca. 5 Minuten
+
+Als Vorbereitung für das Experiment sind zwei Schritte notwendig:
+x
+1. Schreibe Sie hier den Namen ihrer Gruppe nieder: [redacted]
+x
+2. Kopieren Sie das Metamodel ihrer Gruppe in den "model" Ordner des Projektes (falls es aus mehreren Ecore-Dateien besteht, kopieren Sie bitte alle)
+   Optional können Sie, falls vorhanden, auch Dateien für die grafische Repräsentation kopieren, falls die mit diesen arbeiten wollen.
+x

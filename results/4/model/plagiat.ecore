@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="metaModel" nsURI="http://metaModel" nsPrefix="metaModel">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eSubpackages name="schlechtDeutschVersion" nsURI="http://unnoetig" nsPrefix="metamodel.unnoetig">
+    <eClassifiers xsi:type="ecore:EClass" name="EinzelteilBasiertesSystem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="endlagerstaetten" upperBound="-1"
+          eType="#//schlechtDeutschVersion/ansichten/endlagerstaette/Endlagerstaette"
+          containment="true" resolveProxies="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="umwelten" upperBound="-1"
+          eType="#//schlechtDeutschVersion/ansichten/umwelt/Umwelt" containment="true"
+          resolveProxies="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="aufbaue" upperBound="-1"
+          eType="#//schlechtDeutschVersion/ansichten/versammlung/System" containment="true"
+          resolveProxies="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="zuteilungsHintergruende"
+          upperBound="-1" eType="#//schlechtDeutschVersion/ansichten/zuteilung/ZuteilungsHintergrund"
+          containment="true" resolveProxies="false"/>
+    </eClassifiers>
+    <eSubpackages name="ansichten" nsURI="http://metaModel/unnoetig/ansichten" nsPrefix="metaModel.unnoetig.ansichten">
+      <eClassifiers xsi:type="ecore:EClass" name="BenannterBestandteil" abstract="true">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+      <eSubpackages name="zuteilung" nsURI="http://metaModel/unnoetig/ansichten/zuteilung"
+          nsPrefix="metaModel.unnoetig.ansichten.zuteilung">
+        <eClassifiers xsi:type="ecore:EClass" name="ZuteilungsHintergrund" eSuperTypes="#//schlechtDeutschVersion/ansichten/BenannterBestandteil">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="zusammenbauZusammenhang"
+              lowerBound="1" eType="#//schlechtDeutschVersion/ansichten/versammlung/ZusammenbauZusammenhang"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="behaelter" lowerBound="1"
+              eType="#//schlechtDeutschVersion/ansichten/umwelt/Behaelter" eOpposite="#//schlechtDeutschVersion/ansichten/umwelt/Behaelter/zuteilungsHintergrund"/>
+        </eClassifiers>
+      </eSubpackages>
+      <eSubpackages name="versammlung" nsURI="http://metaModel/unnoetig/ansichten/versammlung"
+          nsPrefix="metaModel.unnoetig.ansichten.versammlung">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+          <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL"/>
+          <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL"/>
+          <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL"/>
+        </eAnnotations>
+        <eClassifiers xsi:type="ecore:EClass" name="Rolle" abstract="true" eSuperTypes="#//schlechtDeutschVersion/ansichten/BenannterBestandteil"/>
+        <eClassifiers xsi:type="ecore:EClass" name="GegebeneRolle" eSuperTypes="#//schlechtDeutschVersion/ansichten/versammlung/Rolle">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="delegierenderVerbinder"
+              eType="#//schlechtDeutschVersion/ansichten/versammlung/DelegationsVerbinderBenoetigt"
+              eOpposite="#//schlechtDeutschVersion/ansichten/versammlung/DelegationsVerbinderBenoetigt/linkedRole"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="zusammenbauVerbinder"
+              eType="#//schlechtDeutschVersion/ansichten/versammlung/ZusammenbauVerbinder"
+              eOpposite="#//schlechtDeutschVersion/ansichten/versammlung/ZusammenbauVerbinder/gegebeneRolle"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="zusammenbauZusammenhang"
+              lowerBound="1" eType="#//schlechtDeutschVersion/ansichten/versammlung/ZusammenbauZusammenhang"
+              eOpposite="#//schlechtDeutschVersion/ansichten/versammlung/ZusammenbauZusammenhang/bietet"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="DelegationsVerbinder" abstract="true">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="linkedInterface"
+              lowerBound="1" eType="#//schlechtDeutschVersion/ansichten/endlagerstaette/Schnittstelle"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="DelegationsVerbinderBenoetigt"
+            eSuperTypes="#//schlechtDeutschVersion/ansichten/versammlung/DelegationsVerbinder">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="linkedRole" lowerBound="1"
+              eType="#//schlechtDeutschVersion/ansichten/versammlung/GegebeneRolle"
+              eOpposite="#//schlechtDeutschVersion/ansichten/versammlung/GegebeneRolle/delegierenderVerbinder"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="ZusammenbauZusammenhang" eSuperTypes="#//schlechtDeutschVersion/ansichten/BenannterBestandteil">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+            <details key="constraints" value="assemblyContextFromInnerComponentsOfCompositeComponentCantBeAllocated"/>
+          </eAnnotations>
+          <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+            <details key="assemblyContextFromInnerComponentsOfCompositeComponentCantBeAllocated"
+                value="self.instantiatedComponent.oclIsTypeOf(versammlung::CompositeComponent) implies self.instantiatedComponent.oclAsType(versammlung::CompositeComponent).encapsulatedInstances -> forAll(zuteilungsHintergrund = null)"/>
+          </eAnnotations>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="instantiatedComponent"
+              lowerBound="1" eType="#//schlechtDeutschVersion/ansichten/endlagerstaette/Einzelteil"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="zuteilungsHintergrund"
+              eType="#//schlechtDeutschVersion/ansichten/zuteilung/ZuteilungsHintergrund"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="benoetigt" upperBound="-1"
+              eType="#//schlechtDeutschVersion/ansichten/versammlung/BenoetigteRolle"
+              containment="true" resolveProxies="false" eOpposite="#//schlechtDeutschVersion/ansichten/versammlung/BenoetigteRolle/zusammenbauZusammenhang"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="bietet" upperBound="-1"
+              eType="#//schlechtDeutschVersion/ansichten/versammlung/GegebeneRolle"
+              containment="true" resolveProxies="false" eOpposite="#//schlechtDeutschVersion/ansichten/versammlung/GegebeneRolle/zusammenbauZusammenhang"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="EinzelteilZusammensetungsKomponenete"
+            eSuperTypes="#//schlechtDeutschVersion/ansichten/endlagerstaette/Einzelteil">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+            <details key="constraints" value="ofOtherComponent"/>
+          </eAnnotations>
+          <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+            <details key="ofOtherComponent" value="self.encapsulatedInstances -> select(instance | instance.instantiatedComponent = self)->size() = 0"/>
+          </eAnnotations>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="eingekapselteInstanz"
+              lowerBound="1" upperBound="-1" eType="#//schlechtDeutschVersion/ansichten/versammlung/ZusammenbauZusammenhang"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="System">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+            <details key="constraints" value="providedInterfacesShouldMatchProvidedRolesOfInstances"/>
+          </eAnnotations>
+          <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+            <details key="providedInterfacesShouldMatchProvidedRolesOfInstances" value="self.encapsulatedInstances.instantiatedComponent.provides -> includesAll(self.provides -> asSet())"/>
+          </eAnnotations>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="eingekapselteInstanz"
+              lowerBound="1" upperBound="-1" eType="#//schlechtDeutschVersion/ansichten/versammlung/ZusammenbauZusammenhang"
+              containment="true" resolveProxies="false"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="bietet" lowerBound="1"
+              upperBound="-1" eType="#//schlechtDeutschVersion/ansichten/endlagerstaette/Schnittstelle"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="delegationsVerbinders"
+              upperBound="-1" eType="#//schlechtDeutschVersion/ansichten/versammlung/DelegationsVerbinder"
+              containment="true" resolveProxies="false"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="ZusammenbauVerbinders"
+              upperBound="-1" eType="#//schlechtDeutschVersion/ansichten/versammlung/ZusammenbauVerbinder"
+              containment="true" resolveProxies="false"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="BenoetigteRolle" eSuperTypes="#//schlechtDeutschVersion/ansichten/versammlung/Rolle">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="delegierenderVerbinder"
+              eType="#//schlechtDeutschVersion/ansichten/versammlung/DelegierenderVerbinderBenoetigt"
+              eOpposite="#//schlechtDeutschVersion/ansichten/versammlung/DelegierenderVerbinderBenoetigt/linkedRole"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="zusammenbauVerbinder"
+              eType="#//schlechtDeutschVersion/ansichten/versammlung/ZusammenbauVerbinder"
+              eOpposite="#//schlechtDeutschVersion/ansichten/versammlung/ZusammenbauVerbinder/benoetigteRolle"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="zusammenbauZusammenhang"
+              lowerBound="1" eType="#//schlechtDeutschVersion/ansichten/versammlung/ZusammenbauZusammenhang"
+              eOpposite="#//schlechtDeutschVersion/ansichten/versammlung/ZusammenbauZusammenhang/benoetigt"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="DelegierenderVerbinderBenoetigt"
+            eSuperTypes="#//schlechtDeutschVersion/ansichten/versammlung/DelegationsVerbinder">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="linkedRole" lowerBound="1"
+              eType="#//schlechtDeutschVersion/ansichten/versammlung/BenoetigteRolle"
+              eOpposite="#//schlechtDeutschVersion/ansichten/versammlung/BenoetigteRolle/delegierenderVerbinder"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="ZusammenbauVerbinder">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+            <details key="constraints" value="connectedAssemblyContextsShouldBeAllocatedToSameContainerOrToLinkedContainers"/>
+          </eAnnotations>
+          <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+            <details key="connectedAssemblyContextsShouldBeAllocatedToSameContainerOrToLinkedContainers"
+                value="not (self.GegebeneRolle.ZusammenbauZusammenhang.zuteilungsHintergrund = null) and not (self.providedRole.ZusammenbauZusammenhang.zuteilungsHintergrund = null) implies self.GegebeneRolle.ZusammenbauZusammenhang.zuteilungsHintergrund.container = self.providedRole.ZusammenbauZusammenhang.zuteilungsHintergrund.container or self.GegebeneRolle.ZusammenbauZusammenhang.zuteilungsHintergrund.container.links -> exists(link | link.containers -> includes(self.providedRole.ZusammenbauZusammenhang.zuteilungsHintergrund.container))"/>
+          </eAnnotations>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="benoetigteRolle"
+              lowerBound="1" eType="#//schlechtDeutschVersion/ansichten/versammlung/BenoetigteRolle"
+              eOpposite="#//schlechtDeutschVersion/ansichten/versammlung/BenoetigteRolle/zusammenbauVerbinder"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="gegebeneRolle" lowerBound="1"
+              eType="#//schlechtDeutschVersion/ansichten/versammlung/GegebeneRolle"
+              eOpposite="#//schlechtDeutschVersion/ansichten/versammlung/GegebeneRolle/zusammenbauVerbinder"/>
+        </eClassifiers>
+      </eSubpackages>
+      <eSubpackages name="endlagerstaette" nsURI="http://metaModel/unnoetig/ansichten/endlagerstaette"
+          nsPrefix="metaModel.unnoetig.ansichten.endlagerstaette">
+        <eClassifiers xsi:type="ecore:EClass" name="EinfacherTyp" abstract="true"
+            eSuperTypes="#//schlechtDeutschVersion/ansichten/endlagerstaette/ParameterTyp"/>
+        <eClassifiers xsi:type="ecore:EClass" name="KomplexerTyp" eSuperTypes="#//schlechtDeutschVersion/ansichten/endlagerstaette/ParameterTyp">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="types" lowerBound="1"
+              upperBound="-1" eType="#//schlechtDeutschVersion/ansichten/endlagerstaette/ParameterTyp"
+              containment="true" resolveProxies="false"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="Typ" abstract="true"/>
+        <eClassifiers xsi:type="ecore:EClass" name="InterneHandlung"/>
+        <eClassifiers xsi:type="ecore:EClass" name="ExternerAufruf"/>
+        <eClassifiers xsi:type="ecore:EClass" name="Schleife"/>
+        <eClassifiers xsi:type="ecore:EClass" name="Zweig"/>
+        <eClassifiers xsi:type="ecore:EClass" name="Kartentyp" eSuperTypes="#//schlechtDeutschVersion/ansichten/endlagerstaette/EinfacherTyp">
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" transient="true">
+            <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+              <eTypeArguments/>
+            </eGenericType>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SchnurTyp" eSuperTypes="#//schlechtDeutschVersion/ansichten/endlagerstaette/EinfacherTyp">
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="BoolTyp" eSuperTypes="#//schlechtDeutschVersion/ansichten/endlagerstaette/EinfacherTyp">
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="IntTyp" eSuperTypes="#//schlechtDeutschVersion/ansichten/endlagerstaette/EinfacherTyp">
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="ListenTyp" eSuperTypes="#//schlechtDeutschVersion/ansichten/endlagerstaette/EinfacherTyp">
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="List" lowerBound="1"
+              transient="true">
+            <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+              <eTypeArguments/>
+            </eGenericType>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="DatumsTyp" eSuperTypes="#//schlechtDeutschVersion/ansichten/endlagerstaette/EinfacherTyp">
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1"
+              eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="LangTyp" eSuperTypes="#//schlechtDeutschVersion/ansichten/endlagerstaette/EinfacherTyp">
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1"
+              eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELongObject"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="TreibTyp" eSuperTypes="#//schlechtDeutschVersion/ansichten/endlagerstaette/EinfacherTyp">
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1"
+              eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloatObject"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="CharTyp" eSuperTypes="#//schlechtDeutschVersion/ansichten/endlagerstaette/EinfacherTyp">
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1"
+              eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ECharacterObject"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="LeererTyp" eSuperTypes="#//schlechtDeutschVersion/ansichten/endlagerstaette/Typ"/>
+        <eClassifiers xsi:type="ecore:EClass" name="Einzelteil" eSuperTypes="#//schlechtDeutschVersion/ansichten/BenannterBestandteil">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="requires" upperBound="-1"
+              eType="#//schlechtDeutschVersion/ansichten/endlagerstaette/Schnittstelle"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="provides" upperBound="-1"
+              eType="#//schlechtDeutschVersion/ansichten/endlagerstaette/Schnittstelle"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="description" eType="#//schlechtDeutschVersion/ansichten/endlagerstaette/Verhaltensbeschreibung"
+              containment="true" resolveProxies="false"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="Schnittstelle" eSuperTypes="#//schlechtDeutschVersion/ansichten/BenannterBestandteil">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="signatures" upperBound="-1"
+              eType="#//schlechtDeutschVersion/ansichten/endlagerstaette/Signatur"
+              containment="true" resolveProxies="false"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="endlagerstaette"
+              eType="#//schlechtDeutschVersion/ansichten/endlagerstaette/Endlagerstaette"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="ParameterTyp" abstract="true"
+            eSuperTypes="#//schlechtDeutschVersion/ansichten/endlagerstaette/Typ"/>
+        <eClassifiers xsi:type="ecore:EClass" name="Signatur" eSuperTypes="#//schlechtDeutschVersion/ansichten/BenannterBestandteil">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="returnType" lowerBound="1"
+              eType="#//schlechtDeutschVersion/ansichten/endlagerstaette/Typ" containment="true"
+              resolveProxies="false"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+              eType="#//schlechtDeutschVersion/ansichten/endlagerstaette/Parameter"
+              containment="true" resolveProxies="false"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//schlechtDeutschVersion/ansichten/BenannterBestandteil">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1"
+              eType="#//schlechtDeutschVersion/ansichten/endlagerstaette/ParameterTyp"
+              containment="true" resolveProxies="false"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="Endlagerstaette" eSuperTypes="#//schlechtDeutschVersion/ansichten/BenannterBestandteil">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+              eType="#//schlechtDeutschVersion/ansichten/endlagerstaette/Einzelteil"
+              containment="true" resolveProxies="false"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="interfaces" upperBound="-1"
+              eType="#//schlechtDeutschVersion/ansichten/endlagerstaette/Schnittstelle"
+              containment="true" resolveProxies="false"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="Verhaltensbeschreibung">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="internalActions"
+              upperBound="-1" eType="#//schlechtDeutschVersion/ansichten/endlagerstaette/InterneHandlung"
+              containment="true" resolveProxies="false"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="externalCalls" upperBound="-1"
+              eType="#//schlechtDeutschVersion/ansichten/endlagerstaette/ExternerAufruf"
+              containment="true" resolveProxies="false"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="loops" upperBound="-1"
+              eType="#//schlechtDeutschVersion/ansichten/endlagerstaette/Schleife"
+              containment="true" resolveProxies="false"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="branches" upperBound="-1"
+              eType="#//schlechtDeutschVersion/ansichten/endlagerstaette/Zweig" containment="true"
+              resolveProxies="false"/>
+        </eClassifiers>
+      </eSubpackages>
+      <eSubpackages name="umwelt" nsURI="http://metaModel/unnoetig/ansichten/umwelt"
+          nsPrefix="metaModel.unnoetig.ansichten.umwelt">
+        <eClassifiers xsi:type="ecore:EClass" name="Verbindung" eSuperTypes="#//schlechtDeutschVersion/ansichten/BenannterBestandteil">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="behaelter" lowerBound="2"
+              upperBound="-1" eType="#//schlechtDeutschVersion/ansichten/umwelt/Behaelter"
+              eOpposite="#//schlechtDeutschVersion/ansichten/umwelt/Behaelter/verbindung"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="Umwelt">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="containers" upperBound="-1"
+              eType="#//schlechtDeutschVersion/ansichten/umwelt/Behaelter" containment="true"
+              resolveProxies="false"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="links" upperBound="-1"
+              eType="#//schlechtDeutschVersion/ansichten/umwelt/Verbindung" containment="true"
+              resolveProxies="false"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="Behaelter" eSuperTypes="#//schlechtDeutschVersion/ansichten/BenannterBestandteil">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="zuteilungsHintergrund"
+              upperBound="-1" eType="#//schlechtDeutschVersion/ansichten/zuteilung/ZuteilungsHintergrund"
+              eOpposite="#//schlechtDeutschVersion/ansichten/zuteilung/ZuteilungsHintergrund/behaelter"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="verbindung" upperBound="-1"
+              eType="#//schlechtDeutschVersion/ansichten/umwelt/Verbindung" eOpposite="#//schlechtDeutschVersion/ansichten/umwelt/Verbindung/behaelter"/>
+        </eClassifiers>
+      </eSubpackages>
+    </eSubpackages>
+  </eSubpackages>
+</ecore:EPackage>

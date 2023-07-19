@@ -1,0 +1,153 @@
+@namespace(uri="http://www.kit.edu", prefix="edu.kit")
+package componentModel;
+
+import "http://www.eclipse.org/emf/2003/XMLType";
+
+abstract class DataType {
+	attr type.String[1] name;
+}
+
+abstract class BehaviourBuildingBlock {
+}
+
+abstract class View {
+}
+
+class Component extends RepositoryViewType {
+	attr type.String[1] name;
+	val BehaviourDescription contains;
+	ref Service[*] realizes;
+	ref Interface[+] provides;
+	ref Interface[*] requires;
+}
+
+class Service {
+	ref Signature[+] correspondsTo;
+}
+
+class CompositeComponents extends Component {
+	ref AssemblyContext[+] encapsulates;
+}
+
+class AssemblyContext extends AllocationViewType, AssemblyViewType {
+	attr type.String[1] name;
+	ref Component[1] instantiates;
+	ref Role[*] requires;
+	ref Role[*] provides;
+}
+
+class System {
+	val AssemblyContext[+] encapsulates;
+	ref Interface[+] provides;
+}
+
+class BehaviourDescription {
+	val BehaviourBuildingBlock[*] contains;
+}
+
+class Collection extends DataType {
+	val DataType[+] typeParameter;
+}
+
+class ComplexType extends DataType {
+	val DataType[+] contains;
+}
+
+class AllocationView extends View {
+	val AllocationViewType[*] allocationViewMembers;
+}
+
+class EnvironmentView extends View {
+	val EnvironmentViewType[*] environmentViewMembers;
+}
+
+class AssemblyView extends View {
+	val AssemblyViewType[*] assemblyViewMembers;
+}
+
+class RepositoryView extends View {
+	val RepositoryViewType[*] repositoryViewMembers;
+}
+
+class Interface extends AssemblyViewType, RepositoryViewType {
+	attr type.String[1] name;
+	val Signature[+] consistsOf;
+}
+
+class Link extends EnvironmentViewType {
+	attr type.String[1] name;
+	val Container[2..*] links;
+}
+
+class Signature {
+	attr type.String[1] name;
+	val DataType[1] returnType;
+	val Parameter[*] has;
+}
+
+class ExternalCall extends BehaviourBuildingBlock {
+	val Service[1] requiredService;
+}
+
+class ComponentModelDefinition {
+	val View[1] selectedView;
+}
+
+class AssemblyConnector {
+	val Role[1] requiredRole;
+	ref Role[1] providedRole;
+}
+
+class RequiredDelegationConnector extends AssemblyViewType {
+	ref Role[1] linksTo;
+	ref Interface[1] links;
+}
+
+class ProvidedDelegationConnector extends AssemblyViewType {
+	ref Role[1] links;
+	ref Interface[1] linksTo;
+}
+
+class AllocationContext extends AllocationViewType {
+	ref AssemblyContext[1] maps;
+	ref Container[1] mapsTo;
+}
+
+class Role extends AssemblyViewType {
+	attr type.String[1] name;
+	ref Interface[1] impliedBy;
+}
+
+class Parameter {
+	attr type.String[1] name;
+	ref DataType[1] type;
+}
+
+class Container extends AllocationViewType, EnvironmentViewType {
+	attr type.String[1] name;
+}
+
+class InternalAction extends BehaviourBuildingBlock {
+}
+
+class Branch extends BehaviourBuildingBlock {
+}
+
+class Loop extends BehaviourBuildingBlock {
+}
+
+class PrimitiveType extends DataType {
+}
+
+class AllocationViewType {
+}
+
+class EnvironmentViewType {
+}
+
+class AssemblyViewType {
+}
+
+class RepositoryViewType {
+}
+

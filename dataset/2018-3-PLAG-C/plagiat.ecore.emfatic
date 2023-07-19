@@ -1,0 +1,181 @@
+@namespace(uri="http://www.example.org/cbse", prefix="cbse")
+package cbse;
+
+abstract class BuildingUnit {
+	attr String name;
+	val ProcedureSpecification procedureSpecification;
+	ref SupportingProtocol[+] supportededProtocols;
+	ref NeededProtocol[*] neededProtocols;
+}
+
+abstract class AssignmentPresentation extends Presentation {
+	ref AssignmentSetting[*] assignmentSettings;
+}
+
+abstract class Presentation {
+}
+
+abstract class Aspect {
+}
+
+abstract class Data {
+}
+
+abstract class AbstractProcedure {
+}
+
+abstract class ProtocolAdaptor {
+	ref ActingProtocol[1] neededProtocol;
+	ref ActingProtocol[1] role;
+}
+
+@OCL
+class System {
+	op void testOperation();
+	val AssignmentSetting[*] assignmentSettings;
+	ref CompositionSetting[*] assemblySettings;
+	ref Protocol[+] supportedProtocols;
+}
+
+class RegistryPresentation extends Presentation {
+	ref BuildingUnit[*] buildingUnits;
+	ref Protocol[*] protocols;
+}
+
+class CompositionPresentation extends Presentation {
+	ref CompositionSetting[*] compositionSetting;
+}
+
+class DomainPresentation extends Presentation {
+	ref Wrapper[*] wrappers;
+	ref WrapperLink[*] wrapperlink;
+}
+
+class AggregatedBuildingUnit extends BuildingUnit {
+	ref CompositionSetting[*] assemblySettings;
+}
+
+class IterationProcedure extends AbstractProcedure {
+	ref AbstractProcedure[*] loopedProcedures;
+}
+
+class ForkProcedure extends AbstractProcedure {
+	ref AbstractProcedure[*] branchedProcedures;
+}
+
+class WrapperLink {
+	attr String name;
+	ref Wrapper[2..*] linkedWrappers;
+}
+
+class Wrapper {
+	attr String name;
+}
+
+class BasicType extends Data {
+	attr BasicDataTypes dataType;
+}
+
+class Protocol {
+	attr String name;
+	val Function[*] functions;
+}
+
+class Function {
+	attr String name;
+	val Variable[*] inputVariables;
+	ref Data[1] returnedData;
+}
+
+class Variable {
+	attr String name;
+	ref Data[1] data;
+}
+
+class CompositionSetting {
+	attr String name;
+	ref BuildingUnit[1] buildingUnit;
+}
+
+class SystemIndependentAspect extends Aspect {
+	ref RegistryPresentation[1] registry;
+}
+
+class CompositionAspect extends Aspect {
+	ref CompositionPresentation[1] composition;
+}
+
+class DistributionAspect extends Aspect {
+	ref DomainPresentation[1] domain;
+	ref AssignmentPresentation[1] assignment;
+}
+
+class AssignmentSetting {
+	ref Wrapper[1] wrapper;
+	ref CompositionSetting[1] assemblySetting;
+}
+
+class CommunicationProtocol {
+	ref Protocol[1] neededProtocol;
+	ref Protocol[1] supportingProtocol;
+}
+
+class OutwardCallProcedure extends AbstractProcedure {
+	ref NeededProtocol requiredInterface;
+}
+
+class VoidData extends Data {
+}
+
+class AdvancedType extends Data {
+}
+
+class BasicComponent extends BuildingUnit {
+}
+
+class SupportedAdaptor extends ProtocolAdaptor {
+}
+
+class NeededAdaptor extends ProtocolAdaptor {
+}
+
+class EmbeddedProcedure extends AbstractProcedure {
+}
+
+class SupportingProtocol extends ActingProtocol {
+}
+
+class NeededProtocol extends ActingProtocol {
+}
+
+class Registry {
+	val Protocol[*] interfaces;
+	val BuildingUnit[*] components;
+}
+
+class Domain {
+	val WrapperLink[*] wrapperlink;
+	val Wrapper[*] wrappers;
+}
+
+class ProcedureSpecification {
+	val AbstractProcedure[*] procedures;
+}
+
+enum BasicDataTypes {
+	Boolean = 0;
+	Char = 1;
+	Date = 2;
+	Double = 3;
+	Float = 4;
+	List = 5;
+	Int = 6;
+	Long = 7;
+	Map = 8;
+	String = 9;
+}
+
+abstract interface ActingProtocol {
+	ref Protocol[1] protocol;
+}
+

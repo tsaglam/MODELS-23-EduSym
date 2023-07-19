@@ -1,0 +1,9 @@
+Dauer: ca. 5 Minuten
+
+Als Vorbereitung für das Experiment sind zwei Schritte notwendig:
+
+1. Schreibe Sie hier ihren Namen nieder: [redacted]
+
+2. Laden Sie die Eclipse Modeling Tools runter: https://www.eclipse.org/downloads/packages/release/2023-06/r/eclipse-modeling-tools
+
+3. Importieren Sie den Ordner "ModelingExperiment" via File > Import > General > Existing Projects into Workspace

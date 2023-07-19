@@ -1,0 +1,206 @@
+@namespace(uri="http://edu.kit/mdsd", prefix="mdsd")
+package mdsd;
+
+abstract class NamedEntity {
+	attr String name;
+}
+
+@namespace(uri="http://edu.kit/mdsd/repository", prefix="repository")
+package Repo {
+	abstract class DataType {
+	}
+
+	abstract class ParameterDataType extends DataType {
+	}
+
+	abstract class SimpleDataType extends ParameterDataType {
+	}
+
+	class SEFF {
+		val ExternalCallAction[*] externalCalls;
+		val BranchAction[*] branchActions;
+		val LoopAction[*] loopActions;
+		val InternalAction[*] internalActions;
+		ref Service describedService;
+	}
+
+	class Repo {
+		val BasicComponent[*] components;
+		val Interface[*] interfaces;
+	}
+
+	class Interface extends NamedEntity {
+		val Signature[+] signatures;
+	}
+
+	class BranchAction {
+	}
+
+	class InternalAction {
+	}
+
+	class LoopAction {
+	}
+
+	class ComplexDataType extends ParameterDataType {
+	}
+
+	class FloatType extends SimpleDataType {
+	}
+
+	class CharType extends SimpleDataType {
+	}
+
+	class IntType extends SimpleDataType {
+	}
+
+	class ListType extends SimpleDataType {
+	}
+
+	class BooleanType extends SimpleDataType {
+	}
+
+	class LongType extends SimpleDataType {
+	}
+
+	class StringType extends SimpleDataType {
+	}
+
+	class DateType extends SimpleDataType {
+	}
+
+	class DoubleType extends SimpleDataType {
+	}
+
+	class MapType extends SimpleDataType {
+	}
+
+	class BasicComponent extends NamedEntity {
+		val SEFF behaviour;
+		ref Interface[*] providedInterfaces;
+		ref Interface[*] requiredInterfaces;
+	}
+
+	class Parameter extends NamedEntity {
+		val ParameterDataType[1] dataType;
+	}
+
+	class Signature extends NamedEntity {
+		val Service[1]#signature service;
+		val DataType returnType;
+		val Parameter[*] parameters;
+	}
+
+	class ExternalCallAction {
+		ref Service[1] service;
+	}
+
+	class Service extends NamedEntity {
+		ref Signature[1]#service signature;
+	}
+
+}
+
+@namespace(uri="http://edu.kit/mdsd/deployment", prefix="deployment")
+package Deployment {
+	@Ecore(invocationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot", settingDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot", validationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot")
+	@namespace(uri="http://edu.kit/mdsd/deployment/allocation", prefix="allocation")
+	package Allocation {
+		@Ecore(constraints="compositeComponentXorAssemblyContext")
+		@"http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"(compositeComponentXorAssemblyContext="compositeComponent <> null xor assemblyContext <> null")
+		class AllocationContext {
+			ref Enviro.Container[1] container;
+			ref Assembly.AssemblyContext assemblyContext;
+			ref Assembly.CompositeComponent compositeComponent;
+		}
+
+		@Ecore(constraints="onlyTopLevelAssemblyContexts ConnectionsInAllocation")
+		@"http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"(onlyTopLevelAssemblyContexts="allocationContexts -> collect(assemblyContext) ->excluding(null)->asBag()->
+				intersection(allocationContexts -> collect(compositeComponent)->excluding(null) ->collect(assemblyContexts)->asBag())->size()=0", ConnectionsInAllocation="system.assemblyConnectors->forAll(assConn|
+				allocationContexts->forAll(allCont| assConn.providingEntity = allCont.assemblyContext implies
+					allocationContexts->forAll(innerAllCont| 
+						(innerAllCont.assemblyContext = assConn.requiringEntity implies innerAllCont.container = allCont.container)
+					or environment.links->exists(link| link.containers->includes( allCont.container)  and
+						link.containers->includes(innerAllCont.container))
+					
+				)
+				)
+				)")
+		class Allocation {
+			val AllocationContext[+] allocationContexts;
+			ref Enviro.Environment[1] allocationEnvironment;
+			ref Assembly.System[1] allocatedSystem;
+		}
+
+	}
+
+	@namespace(uri="http://edu.kit/mdsd/deployment/environment", prefix="environment")
+	package Enviro {
+		class Environment extends NamedEntity {
+			val Link[*] links;
+			val Container[+] containers;
+		}
+
+		class Container extends NamedEntity {
+		}
+
+		class Link extends NamedEntity {
+			ref Container[2..*] containers;
+		}
+
+	}
+
+}
+
+@Ecore(invocationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot", settingDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot", validationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot")
+@namespace(uri="http://edu.kit/mdsd/assembly", prefix="assembly")
+package Assembly {
+	abstract class RoledEntity extends NamedEntity {
+		val Role[+] providedRoles;
+		val Role[*] requiredRoles;
+	}
+
+	abstract class Delegable extends RoledEntity {
+	}
+
+	class DelegationConnector {
+		ref AssemblyContext[1] assemblyContext;
+		ref Delegable[1] delegable;
+		ref Role requiredRoleForAssemblyContext;
+		ref Role requiredRoleForDelegable;
+		ref Role providedRoleForDelegable;
+		ref Role providedRoleForAssemblyContext;
+	}
+
+	class Role extends NamedEntity {
+		ref Repo.Interface[1] encapsulatingInterface;
+	}
+
+	@Ecore(constraints="connectsDifferentContexts validProvidedRole vaildRequiredRole diffentAssemblyContext sameInterface notconntectedWithItSelf notSystem")
+	@"http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"(connectsDifferentContexts="true", validProvidedRole="providingEntity.providedRoles->includes(self.providedRole)", vaildRequiredRole="requiringEntity.requiredRoles->includes(self.requiredRole)", diffentAssemblyContext="self.providingEntity <> self.requiringEntity", sameInterface="requiredRole.interface = providedRole.interface", notconntectedWithItSelf="providingEntity.oclIsTypeOf(CompositeComponent)  implies not providingEntity.oclAsType(CompositeComponent).assemblyContexts->includes(requiringEntity)", notSystem="not requiringEntity.oclIsTypeOf(System) and not providingEntity.oclIsTypeOf(System)")
+	class AssemblyConnector {
+		ref Role[1] providedRole;
+		ref Role[1] requiredRole;
+		ref RoledEntity[1] providingEntity;
+		ref RoledEntity[1] requiringEntity;
+	}
+
+	@Ecore(constraints="providedRolesConsistency requiredRolesConsistency providedRolesSizeConsistency requiredRolesSizeConsistency noIntersection")
+	@"http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"(providedRolesConsistency="self.providedRoles -> forAll(providedRole | component.providedInterfaces -> includes(providedRole.interface))", requiredRolesConsistency="self.requiredRoles -> forAll(requiredRole | component.requiredInterfaces -> includes(requiredRole.interface))", providedRolesSizeConsistency="self.providedRoles -> size() = component.providedInterfaces -> size()", requiredRolesSizeConsistency="self.requiredRoles -> size() = component.requiredInterfaces -> size()", noIntersection="providedRoles->intersection(requiredRoles)->size() = 0")
+	class AssemblyContext extends RoledEntity {
+		ref Repo.BasicComponent[1] encapsulatingComponent;
+	}
+
+	class System extends Delegable {
+		val AssemblyContext[*] assemblyContexts;
+		val CompositeComponent[*] compositeComponents;
+		val AssemblyConnector[*] assemblyConnectors;
+		val DelegationConnector[*] delegationConnectors;
+	}
+
+	class CompositeComponent extends Delegable {
+		val AssemblyContext[+] assemblyContexts;
+	}
+
+}
+

@@ -1,0 +1,8 @@
+Dauer: ca. 5 Minuten
+
+Beschreiben Sie nun kurz (gerne auch Stichworte), wie Sie bei der Verschleierung vorgegangen sind. Welche Änderungsarten haben Sie eingesetzt?
+
+[ANTWORT]
+1. Alle Namen von Objekten/Relationen angepasst (mit amüsant schlechten deutschen Übersetzungen)
+2. Ein unnötiges package eingeführt indem alles platziert wurde
+3. Reihenfolge aller elemente verändert (untere hälfte in einem package jeweils nach oben verschoben)

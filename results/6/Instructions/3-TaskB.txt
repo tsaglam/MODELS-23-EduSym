@@ -1,0 +1,7 @@
+Dauer: ca. 5 Minuten
+
+Beschreiben Sie nun kurz (gerne auch Stichworte), wie Sie bei der Verschleierung vorgegangen sind. Welche Änderungsarten haben Sie eingesetzt?
+
+[ANTWORT]
+ - Umbenennung von selbst ausgedachten Namen (Namen aus der Aufgabenstellung wurden beibehalten)
+ - Top-Level-Strukturierungen entfernt (nicht semantisch relevant)

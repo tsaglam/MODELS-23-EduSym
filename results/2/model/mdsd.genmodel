@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+    modelDirectory="/mdsd/src-gen" creationIcons="false" editDirectory="/mdsd.edit/src-gen"
+    editorDirectory="/mdsd.editor/src-gen" modelPluginID="mdsd" modelName="Mdsd" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    codeFormatting="true" importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0"
+    copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <foreignModel>mdsd.ecore</foreignModel>
+  <testsDirectory xsi:nil="true"/>
+  <genPackages prefix="Mdsd" disposableProviderFactory="true" ecorePackage="mdsd.ecore#/">
+    <nestedGenPackages prefix="Core" basePackage="mdsd" disposableProviderFactory="true"
+        ecorePackage="mdsd.ecore#//Core">
+      <genClasses image="false" ecoreClass="mdsd.ecore#//Core/NamedEntity">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mdsd.ecore#//Core/NamedEntity/name"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Repository" basePackage="mdsd" disposableProviderFactory="true"
+        ecorePackage="mdsd.ecore#//Repository">
+      <genClasses ecoreClass="mdsd.ecore#//Repository/Repository">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mdsd.ecore#//Repository/Repository/components"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mdsd.ecore#//Repository/Repository/interfaces"/>
+      </genClasses>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/BehaviourDescription">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mdsd.ecore#//Repository/BehaviourDescription/externalCalls"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mdsd.ecore#//Repository/BehaviourDescription/branches"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mdsd.ecore#//Repository/BehaviourDescription/loops"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mdsd.ecore#//Repository/BehaviourDescription/internalActions"/>
+      </genClasses>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/Branch"/>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/InternalAction"/>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/Loop"/>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/ExternalCall">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Repository/ExternalCall/service"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="mdsd.ecore#//Repository/DataType"/>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/VoidType"/>
+      <genClasses image="false" ecoreClass="mdsd.ecore#//Repository/ParameterDataType"/>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/ComplexDataType"/>
+      <genClasses image="false" ecoreClass="mdsd.ecore#//Repository/SimpleDataType"/>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/FloatType"/>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/CharType"/>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/IntType"/>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/ListType"/>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/BooleanType"/>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/LongType"/>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/StringType"/>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/DateType"/>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/DoubleType"/>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/MapType"/>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/Component">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Repository/Component/providedInterfaces"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Repository/Component/requiredInterfaces"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mdsd.ecore#//Repository/Component/behaviour"/>
+      </genClasses>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/Interface">
+        <genFeatures children="true" createChild="true" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Repository/Interface/signatures"/>
+      </genClasses>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/Parameter">
+        <genFeatures children="true" createChild="true" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Repository/Parameter/dataType"/>
+      </genClasses>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/Signature">
+        <genFeatures children="true" createChild="true" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Repository/Signature/service"/>
+        <genFeatures children="true" createChild="true" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Repository/Signature/parameters"/>
+        <genFeatures children="true" createChild="true" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Repository/Signature/returnType"/>
+      </genClasses>
+      <genClasses ecoreClass="mdsd.ecore#//Repository/Service">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Repository/Service/signature"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Assembly" basePackage="mdsd" disposableProviderFactory="true"
+        ecorePackage="mdsd.ecore#//Assembly">
+      <genClasses ecoreClass="mdsd.ecore#//Assembly/Role">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Assembly/Role/interface"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="mdsd.ecore#//Assembly/Delegable"/>
+      <genClasses ecoreClass="mdsd.ecore#//Assembly/System">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mdsd.ecore#//Assembly/System/assemblyContexts"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mdsd.ecore#//Assembly/System/compositeComponents"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mdsd.ecore#//Assembly/System/assemblyConnectors"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mdsd.ecore#//Assembly/System/delegationConnectors"/>
+      </genClasses>
+      <genClasses ecoreClass="mdsd.ecore#//Assembly/CompositeComponent">
+        <genFeatures children="true" createChild="true" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Assembly/CompositeComponent/assemblyContexts"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="mdsd.ecore#//Assembly/DelegationConnector">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Assembly/DelegationConnector/assemblyContext"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Assembly/DelegationConnector/delegable"/>
+      </genClasses>
+      <genClasses ecoreClass="mdsd.ecore#//Assembly/DelegationConnectorProvidedRole">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Assembly/DelegationConnectorProvidedRole/providedRoleForDelegable"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Assembly/DelegationConnectorProvidedRole/providedRoleForAssemblyContext"/>
+      </genClasses>
+      <genClasses ecoreClass="mdsd.ecore#//Assembly/DelegationConnectorRequiredRole">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Assembly/DelegationConnectorRequiredRole/requiredRoleForDelegable"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Assembly/DelegationConnectorRequiredRole/requiredRoleForAssemblyContext"/>
+      </genClasses>
+      <genClasses ecoreClass="mdsd.ecore#//Assembly/AssemblyContext">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Assembly/AssemblyContext/component"/>
+      </genClasses>
+      <genClasses ecoreClass="mdsd.ecore#//Assembly/AssemblyConnector">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Assembly/AssemblyConnector/providedRole"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Assembly/AssemblyConnector/requiredRole"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Assembly/AssemblyConnector/providingEntity"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference mdsd.ecore#//Assembly/AssemblyConnector/requiringEntity"/>
+      </genClasses>
+      <genClasses ecoreClass="mdsd.ecore#//Assembly/RoledEntity">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mdsd.ecore#//Assembly/RoledEntity/providedRoles"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mdsd.ecore#//Assembly/RoledEntity/requiredRoles"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Deployment" basePackage="mdsd" disposableProviderFactory="true"
+        ecorePackage="mdsd.ecore#//Deployment">
+      <nestedGenPackages prefix="Environment" disposableProviderFactory="true" ecorePackage="mdsd.ecore#//Deployment/Environment">
+        <genClasses ecoreClass="mdsd.ecore#//Deployment/Environment/Environment">
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mdsd.ecore#//Deployment/Environment/Environment/links"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mdsd.ecore#//Deployment/Environment/Environment/containers"/>
+        </genClasses>
+        <genClasses ecoreClass="mdsd.ecore#//Deployment/Environment/Container"/>
+        <genClasses ecoreClass="mdsd.ecore#//Deployment/Environment/Link">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference mdsd.ecore#//Deployment/Environment/Link/containers"/>
+        </genClasses>
+      </nestedGenPackages>
+      <nestedGenPackages prefix="Allocation" disposableProviderFactory="true" ecorePackage="mdsd.ecore#//Deployment/Allocation">
+        <genClasses ecoreClass="mdsd.ecore#//Deployment/Allocation/AllocationContext">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference mdsd.ecore#//Deployment/Allocation/AllocationContext/container"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference mdsd.ecore#//Deployment/Allocation/AllocationContext/assemblyContext"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference mdsd.ecore#//Deployment/Allocation/AllocationContext/compositeComponent"/>
+        </genClasses>
+        <genClasses ecoreClass="mdsd.ecore#//Deployment/Allocation/Allocation">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference mdsd.ecore#//Deployment/Allocation/Allocation/environment"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mdsd.ecore#//Deployment/Allocation/Allocation/allocationContexts"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference mdsd.ecore#//Deployment/Allocation/Allocation/system"/>
+        </genClasses>
+      </nestedGenPackages>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>

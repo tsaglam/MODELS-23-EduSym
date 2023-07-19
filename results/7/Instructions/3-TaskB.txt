@@ -1,0 +1,10 @@
+Dauer: ca. 5 Minuten
+
+Beschreiben Sie nun kurz (gerne auch Stichworte), wie Sie bei der Verschleierung vorgegangen sind. Welche Änderungsarten haben Sie eingesetzt?
+
+- Namen von Klassen und Attributen geändert
+- Eine weitere abstrakte Klasse eingefügt, welche nicht unbedingt notwendig ist.
+- Klassen in ein neues Package ausgelagert
+- Klassen aus unterschiedlichen Packages in ein Package packen
+- Wo voher durch OCL eine XOR Contraint auf zwei Attribute gesetzt wurde, also dass nur ein Attribut von beiden gefüllt sein darf, ist hier eine Oberklasse entstanden
+	und es gibt nur noch ein Attribut, siehe Allocatable und AllocationContext

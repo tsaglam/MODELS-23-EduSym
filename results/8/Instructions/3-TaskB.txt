@@ -1,0 +1,14 @@
+Dauer: ca. 5 Minuten
+
+Beschreiben Sie nun kurz (gerne auch Stichworte), wie Sie bei der Verschleierung vorgegangen sind. Welche Änderungsarten haben Sie eingesetzt?
+
+[ANTWORT]
+
+viewtypes entfernt und anpassung der packages ~1min
+types in eigenes package ~1min
+namen geändert, falls von der domäne nicht eindeutig vorgegeben ~5min
+elemente neu sortiert ~5min
+änderung der rheinfolge in ocl von operanten in kommutativ operationen ~3min
+entfernen von abstract in allen elementen ~1min
+entfernen von langen ocl constrains (Wahrscheinlichkeit, dass diese so ähnlich sind sind geringer als bei kurzen) ~1min
+entfernen von ordered bei referenzen ~3min

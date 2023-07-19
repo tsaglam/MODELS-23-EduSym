@@ -1,0 +1,9 @@
+Dauer: ca. 5 Minuten
+
+Beschreiben Sie nun (gerne auch in Stichworten), wie Sie bei der Verschleierung vorgegangen sind. Welche Änderungsarten haben Sie eingesetzt?
+
+- Generell alles umbenennen und nahe alternative Namen finden (Beispiel Protocol statt Interface; Durch starke Änderung im Naming würde der Professor sicherlich die ähnlichen Strukturen nicht wiedererkennen)
+- Dann Vererbungsstrukturen untersucht, um ggf. neue Interfaces oder abstrakte Klassen hinzuzufügen
+	- Dabei in Kauf nehmen, dass es hier und da zu Ungereimtheiten kommen könnte (Das Modell vom Kommilitonen wird sicherlich eine gute Note, dann muss es bei mir fürs Bestehen reichen)
+- In der Kernstruktur aber keine gravierenden Eingriffe machen
+	- Der Kern muss ja "allgemein" genug sein, sodass er bei verschiedenen Kommilitonen ungefähr gleich funktioniert

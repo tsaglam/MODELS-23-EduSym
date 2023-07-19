@@ -1,0 +1,208 @@
+@"http://www.eclipse.org/OCL/Import"(ecore="http://www.eclipse.org/emf/2002/Ecore")
+@namespace(uri="http://metaModel", prefix="metaModel")
+package metaModel;
+
+class ComponentBasedSystem {
+	!resolve val viewType.repository.Repository[*] repositories;
+	!resolve val viewType.environment.Environment[*] environments;
+	!resolve val viewType.assembly.System[*] systems;
+	!resolve val viewType.allocation.AllocationContext[*] allocationContexts;
+}
+
+@namespace(uri="http://metaModel/viewType", prefix="metaModel.viewType")
+package viewType {
+	abstract class NamedElement {
+		attr String[1] name;
+	}
+
+	@namespace(uri="http://metaModel/viewType/repository", prefix="metaModel.viewType.repository")
+	package repository {
+		abstract class ParameterType extends Type {
+		}
+
+		abstract class SimpleType extends ParameterType {
+		}
+
+		abstract class Type {
+		}
+
+		class BehaviourDescription {
+			!resolve val InternalAction[*] internalActions;
+			!resolve val ExternalCall[*] externalCalls;
+			!resolve val Loop[*] loops;
+			!resolve val Branch[*] branches;
+		}
+
+		class Interface extends NamedElement {
+			!resolve val Signature[*] signatures;
+		}
+
+		class Repository {
+			!resolve val Component[*] components;
+			!resolve val Interface[*] interfaces;
+		}
+
+		class ComplexType extends ParameterType {
+			!resolve val ParameterType[+] types;
+		}
+
+		class Signature extends NamedElement {
+			!resolve val Type[1] returnType;
+			!resolve val Parameter[*] parameters;
+		}
+
+		class Parameter extends NamedElement {
+			!resolve val ParameterType[1] type;
+		}
+
+		class InternalAction {
+		}
+
+		class ExternalCall {
+		}
+
+		class Loop {
+		}
+
+		class Branch {
+		}
+
+		class VoidType extends Type {
+		}
+
+		class Component extends NamedElement {
+			!resolve val BehaviourDescription description;
+			ref Interface[*] requires;
+			ref Interface[*] provides;
+		}
+
+		class MapType extends SimpleType {
+			transient attr EEList<?> type;
+		}
+
+		class StringType extends SimpleType {
+			attr String type;
+		}
+
+		class BooleanType extends SimpleType {
+			attr Boolean type;
+		}
+
+		class IntType extends SimpleType {
+			attr Integer type;
+		}
+
+		class ListType extends SimpleType {
+			transient attr EEList<?>[1] List;
+		}
+
+		class DateType extends SimpleType {
+			attr EDate[1] type;
+		}
+
+		class LongType extends SimpleType {
+			attr Long[1] type;
+		}
+
+		class FloatType extends SimpleType {
+			attr Float[1] type;
+		}
+
+		class CharType extends SimpleType {
+			attr Character[1] type;
+		}
+
+	}
+
+	@namespace(uri="http://metaModel/viewType/environment", prefix="metaModel.viewType.environment")
+	package environment {
+		class Container extends NamedElement {
+			ref allocation.AllocationContext[*]#container allocationContext;
+			ref Link[*]#containers links;
+		}
+
+		class Link extends NamedElement {
+			ref Container[2..*]#links containers;
+		}
+
+		class Environment {
+			!resolve val Container[*] containers;
+			!resolve val Link[*] links;
+		}
+
+	}
+
+	@Ecore(invocationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL", settingDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL", validationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL")
+	@namespace(uri="http://metaModel/viewType/assembly", prefix="metaModel.viewType.assembly")
+	package assembly {
+		abstract class DelegationConnector {
+			ref repository.Interface[1] linkedInterface;
+		}
+
+		abstract class Role extends NamedElement {
+		}
+
+		@Ecore(constraints="assemblyContextFromInnerComponentsOfCompositeComponentCantBeAllocated")
+		@"http://www.eclipse.org/emf/2002/Ecore/OCL"(assemblyContextFromInnerComponentsOfCompositeComponentCantBeAllocated="self.instantiatedComponent.oclIsTypeOf(assembly::CompositeComponent) implies self.instantiatedComponent.oclAsType(assembly::CompositeComponent).encapsulatedInstances -> forAll(allocationContext = null)")
+		class AssemblyContext extends NamedElement {
+			!resolve val RequiredRole[*]#assemblyContext requires;
+			!resolve val ProvidedRole[*]#assemblyContext provides;
+			ref repository.Component[1] instantiatedComponent;
+			ref allocation.AllocationContext#assemblyContext allocationContext;
+		}
+
+		@Ecore(constraints="connectedAssemblyContextsShouldBeAllocatedToSameContainerOrToLinkedContainers")
+		@"http://www.eclipse.org/emf/2002/Ecore/OCL"(connectedAssemblyContextsShouldBeAllocatedToSameContainerOrToLinkedContainers="not (self.requiredRole.assemblyContext.allocationContext = null) and not (self.providedRole.assemblyContext.allocationContext = null) implies self.requiredRole.assemblyContext.allocationContext.container = self.providedRole.assemblyContext.allocationContext.container or self.requiredRole.assemblyContext.allocationContext.container.links -> exists(link | link.containers -> includes(self.providedRole.assemblyContext.allocationContext.container))")
+		class AssemblyConnector {
+			ref RequiredRole[1]#assemblyConnector requiredRole;
+			ref ProvidedRole[1]#assemblyConnector providedRole;
+		}
+
+		class RequiredRole extends Role {
+			ref DelegationConnectorRequired#linkedRole delegationConnector;
+			ref AssemblyConnector#requiredRole assemblyConnector;
+			ref AssemblyContext[1]#requires assemblyContext;
+		}
+
+		class DelegationConnectorRequired extends DelegationConnector {
+			ref RequiredRole[1]#delegationConnector linkedRole;
+		}
+
+		class ProvidedRole extends Role {
+			ref DelegationConnectorProvided#linkdedRole delegationConnector;
+			ref AssemblyConnector#providedRole assemblyConnector;
+			ref AssemblyContext[1]#provides assemblyContext;
+		}
+
+		class DelegationConnectorProvided extends DelegationConnector {
+			ref ProvidedRole[1]#delegationConnector linkdedRole;
+		}
+
+		@Ecore(constraints="ofOtherComponent")
+		@"http://www.eclipse.org/emf/2002/Ecore/OCL"(ofOtherComponent="self.encapsulatedInstances -> select(instance | instance.instantiatedComponent = self)->size() = 0")
+		class CompositeComponent extends repository.Component {
+			ref AssemblyContext[+] encapsulatedInstances;
+		}
+
+		@Ecore(constraints="providedInterfacesShouldMatchProvidedRolesOfInstances")
+		@"http://www.eclipse.org/emf/2002/Ecore/OCL"(providedInterfacesShouldMatchProvidedRolesOfInstances="self.encapsulatedInstances.instantiatedComponent.provides -> includesAll(self.provides -> asSet())")
+		class System {
+			!resolve val AssemblyContext[+] encapsulatedInstances;
+			!resolve val DelegationConnector[*] delegationConnectors;
+			!resolve val AssemblyConnector[*] assemblyConnectors;
+			ref repository.Interface[+] provides;
+		}
+
+	}
+
+	@namespace(uri="http://metaModel/viewType/allocation", prefix="metaModel.viewType.allocation")
+	package allocation {
+		class AllocationContext extends NamedElement {
+			ref assembly.AssemblyContext[1]#allocationContext assemblyContext;
+			ref environment.Container[1]#allocationContext container;
+		}
+
+	}
+
+}
+

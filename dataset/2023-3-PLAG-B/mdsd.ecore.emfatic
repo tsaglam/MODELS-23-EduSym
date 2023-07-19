@@ -1,0 +1,250 @@
+@namespace(uri="http://www.example.org/mdsd", prefix="mdsd")
+package mdsd;
+
+@namespace(uri="http://www.example.org/mdsd/repository", prefix="repository")
+package Repository {
+	class Component extends Core.NamedElement {
+		val Behaviour.BehaviourDescription behaviour;
+		ref Interface[*] providedInterfaces;
+		ref Interface[*] requiredInterfaces;
+	}
+
+	class Parameter extends Core.NamedElement {
+		val DataTypes.ParameterDataType[1] dataType;
+	}
+
+	class Signature extends Core.NamedElement {
+		val Service[1]#signature service;
+		val DataTypes.DataType[1] returnType;
+		val Parameter[*] parameters;
+	}
+
+	class Repository {
+		val Component[*] components;
+		val Interface[*] interfaces;
+	}
+
+	class Interface extends Core.NamedElement {
+		val Signature[+] signatures;
+	}
+
+	class Service extends Core.NamedElement {
+		ref Signature[1]#service signature;
+	}
+
+	@namespace(uri="http://www.example.org/mdsd/repository/behaviour", prefix="behaviour")
+	package Behaviour {
+		class BehaviourDescription {
+			val ExternalCall[*] externalCalls;
+			val BranchAction[*] branches;
+			val LoopAction[*] loops;
+			val InternalAction[*] internalActions;
+		}
+
+		class BranchAction {
+		}
+
+		class InternalAction {
+		}
+
+		class LoopAction {
+		}
+
+		class ExternalCall {
+			ref Service[1] service;
+		}
+
+		package behaviour {
+			class BehaviourDescription {
+				val ExternalCall[*] externalCalls;
+				val BranchAction[*] branches;
+				val LoopAction[*] loops;
+				val InternalAction[*] internalActions;
+			}
+
+			class BranchAction {
+			}
+
+			class InternalAction {
+			}
+
+			class LoopAction {
+			}
+
+			class ExternalCall {
+				ref Service[1] service;
+			}
+
+		}
+
+	}
+
+	@namespace(uri="http://www.example.org/mdsd/repository/dataTypes", prefix="dataTypes")
+	package DataTypes {
+		abstract class DataType {
+		}
+
+		abstract class ParameterDataType extends DataType {
+		}
+
+		abstract class StandardDataType extends ParameterDataType {
+		}
+
+		abstract class CollectionDataType extends ParameterDataType {
+		}
+
+		class VoidType extends DataType {
+		}
+
+		class CompositDataType extends ParameterDataType {
+		}
+
+		class FloatType extends StandardDataType {
+		}
+
+		class CharType extends StandardDataType {
+		}
+
+		class IntType extends StandardDataType {
+		}
+
+		class ListType extends CollectionDataType {
+		}
+
+		class BooleanType extends StandardDataType {
+		}
+
+		class LongType extends StandardDataType {
+		}
+
+		class StringType extends StandardDataType {
+		}
+
+		class DateType extends StandardDataType {
+		}
+
+		class DoubleType extends StandardDataType {
+		}
+
+		class MapType extends CollectionDataType {
+		}
+
+	}
+
+}
+
+@Ecore(invocationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot", settingDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot", validationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot")
+@namespace(uri="http://www.example.org/mdsd/deployment", prefix="deployment")
+package Deployment {
+	@Ecore(constraints="onlyTopLevelAssemblyContexts ConnectionsInAllocation")
+	@"http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"(onlyTopLevelAssemblyContexts="allocationContexts -> collect(assemblyContext) ->excluding(null)->asBag()->
+				intersection(allocationContexts -> collect(compositeComponent)->excluding(null) ->collect(assemblyContexts)->asBag())->size()=0", ConnectionsInAllocation="system.assemblyConnectors->forAll(assConn|
+				allocationContexts->forAll(allCont| assConn.providingEntity = allCont.assemblyContext implies
+					allocationContexts->forAll(innerAllCont| 
+						(innerAllCont.assemblyContext = assConn.requiringEntity implies innerAllCont.container = allCont.container)
+					or environment.links->exists(link| link.containers->includes( allCont.container)  and
+						link.containers->includes(innerAllCont.container))
+					
+				)
+				)
+				)")
+	class Allocation {
+		val AllocationContext[*] allocationContexts;
+		ref Environment[1] environment;
+		ref Assembly.System[1] system;
+	}
+
+	@Ecore(constraints="compositeComponentXorAssemblyContext")
+	@"http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"(compositeComponentXorAssemblyContext="compositeComponent <> null xor assemblyContext <> null")
+	class AllocationContext {
+		ref Container[1] container;
+		ref Assembly.Allocatable allocatable;
+	}
+
+	class Container extends Core.NamedElement {
+	}
+
+	class Environment extends Core.NamedElement {
+		val Link[*] links;
+		val Container[*] containers;
+	}
+
+	class Link extends Core.NamedElement {
+		ref Container[2..*] containers;
+	}
+
+}
+
+@Ecore(invocationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot", settingDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot", validationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot")
+@namespace(uri="http://www.example.org/mdsd/assembly", prefix="assembly")
+package Assembly {
+	abstract class BaseDelegationConnector {
+		ref AssemblyContext[1] assemblyContext;
+		ref Delegable[1] delegable;
+	}
+
+	abstract class Delegable extends RoledElement {
+	}
+
+	abstract class Allocatable {
+	}
+
+	abstract class RoledElement extends Core.NamedElement {
+		val Role[+] providedRoles;
+		val Role[*] requiredRoles;
+	}
+
+	@Ecore(constraints="connectsDifferentContexts validProvidedRole vaildRequiredRole diffentAssemblyContext sameInterface notconntectedWithItSelf notSystem")
+	@"http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"(connectsDifferentContexts="true", validProvidedRole="providingEntity.providedRoles->includes(self.providedRole)", vaildRequiredRole="requiringEntity.requiredRoles->includes(self.requiredRole)", diffentAssemblyContext="self.providingEntity <> self.requiringEntity", sameInterface="requiredRole.interface = providedRole.interface", notconntectedWithItSelf="providingEntity.oclIsTypeOf(CompositeComponent)  implies not providingEntity.oclAsType(CompositeComponent).assemblyContexts->includes(requiringEntity)", notSystem="not requiringEntity.oclIsTypeOf(System) and not providingEntity.oclIsTypeOf(System)")
+	class AssemblyConnector {
+		ref Role[1] providedRole;
+		ref Role[1] requiredRole;
+		ref RoledElement[1] providingEntity;
+		ref RoledElement[1] requiringEntity;
+	}
+
+	@Ecore(constraints="providedRoleExistInDelegable rolesExistInAssemblyContext sameInterface")
+	@"http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"(providedRoleExistInDelegable="delegable.providedRoles -> includes(providedRoleForDelegable)", rolesExistInAssemblyContext="assemblyContext.providedRoles -> includes(providedRoleForAssemblyContext)", sameInterface="providedRoleForAssemblyContext.interface = providedRoleForDelegable.interface")
+	class DelegationConnectorProvidedRole extends BaseDelegationConnector {
+		ref Role[1] providedRoleForDelegable;
+		ref Role[1] providedRoleForAssemblyContext;
+	}
+
+	@Ecore(constraints="requiredRoleExistInDelegable rolesExistInAssemblyContext sameInterface")
+	@"http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"(requiredRoleExistInDelegable="delegable.requiredRoles -> includes(requiredRoleForDelegable)", rolesExistInAssemblyContext="assemblyContext.requiredRoles -> includes(requiredRoleForAssemblyContext)", sameInterface="requiredRoleForAssemblyContext.interface = requiredRoleForDelegable.interface")
+	class DelegationConnectorRequiredRole extends BaseDelegationConnector {
+		ref Role[1] requiredRoleForDelegable;
+		ref Role[1] requiredRoleForAssemblyContext;
+	}
+
+	@Ecore(constraints="providedRolesConsistency requiredRolesConsistency providedRolesSizeConsistency requiredRolesSizeConsistency noIntersection")
+	@"http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"(providedRolesConsistency="self.providedRoles -> forAll(providedRole | component.providedInterfaces -> includes(providedRole.interface))", requiredRolesConsistency="self.requiredRoles -> forAll(requiredRole | component.requiredInterfaces -> includes(requiredRole.interface))", providedRolesSizeConsistency="self.providedRoles -> size() = component.providedInterfaces -> size()", requiredRolesSizeConsistency="self.requiredRoles -> size() = component.requiredInterfaces -> size()", noIntersection="providedRoles->intersection(requiredRoles)->size() = 0")
+	class AssemblyContext extends RoledElement, Allocatable {
+		ref Repository.Component[1] component;
+	}
+
+	class Role extends Core.NamedElement {
+		ref Repository.Interface[1] ~interface;
+	}
+
+	class System extends Delegable {
+		val AssemblyContext[*] assemblyContexts;
+		val CompositeComponent[*] compositeComponents;
+		val AssemblyConnector[*] assemblyConnectors;
+		val BaseDelegationConnector[*] delegationConnectors;
+	}
+
+	class CompositeComponent extends Delegable, Allocatable {
+		val AssemblyContext[+] assemblyContexts;
+	}
+
+}
+
+@namespace(uri="http://www.example.org/mdsd/core", prefix="core")
+package Core {
+	abstract class NamedElement {
+		attr String elementName;
+	}
+
+}
+

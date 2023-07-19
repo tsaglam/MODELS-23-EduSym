@@ -1,0 +1,12 @@
+Dauer: ca. 5 Minuten
+
+Beschreiben Sie nun (gerne auch in Stichworten), wie Sie bei der Verschleierung vorgegangen sind. Welche Änderungsarten haben Sie eingesetzt?
+
+[ANTWORT]
+- Anpassen von Kardinalitäten
+- Entfernen von Klassen
+- Umbenennung von Attributen
+- Umbenennung von Klassen
+- Ersetzen von Beziehungen
+- Anpassen von Werten/Belegungen bei Simple Data Types
+- Einfügen von Attributen

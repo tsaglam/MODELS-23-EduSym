@@ -1,0 +1,157 @@
+@namespace(uri="http://www.kit.edu", prefix="edu.kit")
+package cmModel;
+
+import "http://www.eclipse.org/emf/2003/XMLType";
+
+abstract class Datatype {
+	attr type.String[1] identifier;
+}
+
+abstract class BehaviourBlock {
+}
+
+@GenModel(documentation="Parent object for models. Each model file contains a view on the component model.")
+abstract class AbstractView {
+}
+
+class Component extends RepositoryViewMember {
+	attr type.String[1] identifier;
+	val BehaviourDescription contains;
+	ref ServiceImplementation[*] realizes;
+	ref Interface[+] providedInterfaces;
+	ref Interface[*] requiredInterfaces;
+}
+
+class ServiceImplementation {
+	ref MethodSignature[+] correspondsTo;
+}
+
+class AssemblyContext extends AllocationViewMember, AssemblyViewMember {
+	attr type.String[1] name;
+	ref Component[1] instantiates;
+	ref Role[*] requires;
+	ref Role[*] provides;
+}
+
+class CompositeComponents extends Component {
+
+	@GenModel(documentation="Number of AssemblyContext objects contained in this CompositeComponent.")
+	attr int size;
+	ref AssemblyContext[+] containedWithin;
+}
+
+@GenModel(documentation="An Interface contains certain methods (which are defined over signatures) that must implemented by the Components who provide the aforementioned Interface.")
+class Interface extends AssemblyViewMember, RepositoryViewMember {
+	attr type.String[1] name;
+	val MethodSignature[+] consistsOf;
+}
+
+@GenModel(documentation="Connects containers within the Environment view.")
+class ContainerLink extends EnvironmentViewMember {
+	attr type.String[1] name;
+	val Container[2..*] links;
+}
+
+@GenModel(documentation="Corresponds to the \"Allocation\" view type in the metamodel description.")
+class AllocationView extends AbstractView {
+	val AllocationViewMember[*] members;
+}
+
+class BehaviourDescription {
+	val BehaviourBlock[*] contains;
+}
+
+class Collection extends Datatype {
+	val Datatype[+] typeParameter;
+}
+
+class StructType extends Datatype {
+	val Datatype[+] contains;
+}
+
+class EnvironmentView extends AbstractView {
+	val EnvironmentViewMember[*] members;
+}
+
+class AssemblyView extends AbstractView {
+	val AssemblyViewMember[*] members;
+}
+
+class RepositoryView extends AbstractView {
+	val RepositoryViewMember[*] members;
+}
+
+class System {
+	val AssemblyContext[+] encapsulates;
+	ref Interface[+] provides;
+}
+
+class InternalAction extends BehaviourBlock {
+}
+
+class Branch extends BehaviourBlock {
+}
+
+class Loop extends BehaviourBlock {
+}
+
+class PrimitiveType extends Datatype {
+}
+
+class AllocationViewMember {
+}
+
+class EnvironmentViewMember {
+}
+
+class AssemblyViewMember {
+}
+
+class RepositoryViewMember {
+}
+
+@GenModel(documentation="There is an 1-to-1 mapping between Roles and Interfaces: A Role is an Interface within the Assembly view. Name of the Role is the name of the Interface.")
+class Role extends AssemblyViewMember {
+	ref Interface[1] impliedBy;
+}
+
+@GenModel(documentation="Used in the Assembly view for matching components to interfaces over roles.")
+class RoleConnector {
+	val Role[1] requiredRole;
+	ref Role[1] providedRole;
+}
+
+class RequiredDelegationConnector extends AssemblyViewMember {
+	ref Role[1] linksTo;
+	ref Interface[1] links;
+}
+
+class ProvidedDelegationConnector extends AssemblyViewMember {
+	ref Role[1] links;
+	ref Interface[1] linksTo;
+}
+
+class AllocationContext extends AllocationViewMember {
+	ref AssemblyContext[1] maps;
+	ref Container[1] mapsTo;
+}
+
+class Parameter {
+	attr type.String[1] name;
+	ref Datatype[1] type;
+}
+
+class Container extends AllocationViewMember, EnvironmentViewMember {
+	attr type.String[1] name;
+}
+
+class MethodSignature {
+	attr type.String[1] identifier;
+	val Datatype[1] returnType;
+	val Parameter[*] inputParameters;
+}
+
+class ExternalCall extends BehaviourBlock {
+	val ServiceImplementation[1] requiredService;
+}
+

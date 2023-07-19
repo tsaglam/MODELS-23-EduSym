@@ -1,0 +1,204 @@
+@"http://www.eclipse.org/OCL/Import"(ecore="http://www.eclipse.org/emf/2002/Ecore")
+@namespace(uri="http://componentBasedSystem", prefix="componentBasedSystem")
+package componentBasedSystem;
+
+class Root {
+	!ordered !resolve val allocation.AllocationContext[*] allocationContexts;
+	!ordered !resolve val environment.Environment[*] environments;
+	!ordered !resolve val repository.Repository[*] repositories;
+	!ordered !resolve val assembly.System[*] systems;
+}
+
+class NamedElement {
+	!ordered attr String[1] name;
+}
+
+@namespace(uri="http://componentBasedSystem/repository", prefix="componentBasedSystem.repository")
+package repository {
+	class Description {
+		!ordered !resolve val Branch[*] branches;
+		!ordered !resolve val ExternalCall[*] externalCalls;
+		!ordered !resolve val InternalAction[*] internalActions;
+		!ordered !resolve val Loop[*] loops;
+	}
+
+	class Interface extends NamedElement {
+		!ordered !resolve val Signature[*] signatures;
+	}
+
+	class Repository {
+		!ordered !resolve val Component[*] components;
+		!ordered !resolve val Interface[*] interfaces;
+	}
+
+	class Signature extends NamedElement {
+		!ordered !resolve val type.Type[1] returnType;
+		!ordered !resolve val Parameter[*] parameters;
+	}
+
+	class Parameter extends NamedElement {
+		!ordered !resolve val type.NonVoidType[1] type;
+	}
+
+	class Branch {
+	}
+
+	class ExternalCall {
+	}
+
+	class InternalAction {
+	}
+
+	class Loop {
+	}
+
+	class Component extends NamedElement {
+		!ordered !resolve val Description description;
+		!ordered ref Interface[*] provides;
+		!ordered ref Interface[*] requires;
+	}
+
+	@namespace(uri="http://componentBasedSystem/repository/type", prefix="componentBasedSystem.repository.type")
+	package type {
+		abstract class Type {
+		}
+
+		class Boolean extends BaseType {
+			!ordered attr Boolean type;
+		}
+
+		class Char extends BaseType {
+			!ordered attr Character[1] type;
+		}
+
+		class Date extends BaseType {
+			!ordered attr EDate[1] type;
+		}
+
+		class Float extends BaseType {
+			!ordered attr Float[1] type;
+		}
+
+		class Integer extends BaseType {
+			!ordered attr Integer type;
+		}
+
+		class List extends BaseType {
+			!ordered transient attr EEList<?>[1] List;
+		}
+
+		class Long extends BaseType {
+			!ordered attr Long[1] type;
+		}
+
+		class Map extends BaseType {
+			!ordered transient attr EEList<?> type;
+		}
+
+		class String extends BaseType {
+			attr String type;
+		}
+
+		class BaseType extends NonVoidType {
+		}
+
+		class NonVoidType extends Type {
+		}
+
+		class Void extends Type {
+		}
+
+		class ComplexType extends NonVoidType {
+			!ordered !resolve val NonVoidType[+] types;
+		}
+
+	}
+
+}
+
+@namespace(uri="http://componentBasedSystem/environment", prefix="componentBasedSystem.environment")
+package environment {
+	class Container extends NamedElement {
+		!ordered ref allocation.AllocationContext[*]#container allocationContext;
+		!ordered ref Link[*]#containers links;
+	}
+
+	class Link extends NamedElement {
+		!ordered ref Container[2..*]#links containers;
+	}
+
+	class Environment {
+		!ordered !resolve val Container[*] containers;
+		!ordered !resolve val Link[*] links;
+	}
+
+}
+
+@Ecore(invocationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL", settingDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL", validationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL")
+@namespace(uri="http://componentBasedSystem/assembly", prefix="componentBasedSystem.assembly")
+package assembly {
+	@Ecore(constraints="providedInterfacesRealyProvided")
+	@"http://www.eclipse.org/emf/2002/Ecore/OCL"(providedInterfacesRealyProvided="self.encapsulatedInstances.instantiatedComponent.provides -> includesAll(self.provides -> asSet())")
+	class System {
+		!ordered !resolve val AssemblyConnector[*] assemblyConnectors;
+		!ordered !resolve val DelegationConnector[*] delegationConnectors;
+		!ordered !resolve val AssemblyContext[+] encapsulatedInstances;
+		!ordered ref repository.Interface[+] provides;
+	}
+
+	@Ecore(constraints="notPartOfItself")
+	@"http://www.eclipse.org/emf/2002/Ecore/OCL"(notPartOfItself="self.encapsulatedInstances -> select(encapsulatedInstance | encapsulatedInstance.instantiatedComponent = self)->size() = 0")
+	class CompositeComponent extends repository.Component {
+		ref AssemblyContext[+] encapsulatedInstances;
+	}
+
+	class Role extends NamedElement {
+	}
+
+	class AssemblyContext extends NamedElement {
+		!ordered !resolve val ProvidedRole[*]#assemblyContext provides;
+		!ordered !resolve val RequiredRole[*]#assemblyContext requires;
+		!ordered ref allocation.AllocationContext#assemblyContext allocationContext;
+		!ordered ref repository.Component[1] instantiatedComponent;
+	}
+
+	class AssemblyConnector {
+		!ordered ref ProvidedRole[1]#assemblyConnector providedRole;
+		!ordered ref RequiredRole[1]#assemblyConnector requiredRole;
+	}
+
+	class DelegationConnector {
+		!ordered ref repository.Interface[1] linkedInterface;
+	}
+
+	class DelegationConnectorProvided extends DelegationConnector {
+		!ordered ref ProvidedRole[1]#delegationConnector linkdedRole;
+	}
+
+	class DelegationConnectorRequired extends DelegationConnector {
+		!ordered ref RequiredRole[1]#delegationConnector linkedRole;
+	}
+
+	class ProvidedRole extends Role {
+		!ordered ref AssemblyConnector#providedRole assemblyConnector;
+		!ordered ref AssemblyContext[1]#provides assemblyContext;
+		!ordered ref DelegationConnectorProvided#linkdedRole delegationConnector;
+	}
+
+	class RequiredRole extends Role {
+		!ordered ref AssemblyConnector#requiredRole assemblyConnector;
+		!ordered ref AssemblyContext[1]#requires assemblyContext;
+		!ordered ref DelegationConnectorRequired#linkedRole delegationConnector;
+	}
+
+}
+
+@namespace(uri="http://componentBasedSystem/allocation", prefix="componentBasedSystem.allocation")
+package allocation {
+	class AllocationContext extends NamedElement {
+		!ordered ref assembly.AssemblyContext[1]#allocationContext assemblyContext;
+		!ordered ref environment.Container[1]#allocationContext container;
+	}
+
+}
+

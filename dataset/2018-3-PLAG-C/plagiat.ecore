@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="cbse" nsURI="http://www.example.org/cbse" nsPrefix="cbse">
+  <eClassifiers xsi:type="ecore:EClass" name="Presentation" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Aspect" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemIndependentAspect" eSuperTypes="#//Aspect">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registry" lowerBound="1"
+        eType="#//RegistryPresentation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RegistryPresentation" eSuperTypes="#//Presentation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="buildingUnits" upperBound="-1"
+        eType="#//BuildingUnit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="protocols" upperBound="-1"
+        eType="#//Protocol"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BuildingUnit" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supportededProtocols" lowerBound="1"
+        upperBound="-1" eType="#//SupportingProtocol"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="neededProtocols" upperBound="-1"
+        eType="#//NeededProtocol"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="procedureSpecification"
+        eType="#//ProcedureSpecification" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Protocol">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="functions" upperBound="-1"
+        eType="#//Function" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositionPresentation" eSuperTypes="#//Presentation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compositionSetting" upperBound="-1"
+        eType="#//CompositionSetting"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositionAspect" eSuperTypes="#//Aspect">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="composition" lowerBound="1"
+        eType="#//CompositionPresentation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DistributionAspect" eSuperTypes="#//Aspect">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="domain" lowerBound="1"
+        eType="#//DomainPresentation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignment" lowerBound="1"
+        eType="#//AssignmentPresentation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DomainPresentation" eSuperTypes="#//Presentation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="wrappers" upperBound="-1"
+        eType="#//Wrapper"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="wrapperlink" upperBound="-1"
+        eType="#//WrapperLink"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssignmentPresentation" abstract="true"
+      eSuperTypes="#//Presentation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignmentSettings" upperBound="-1"
+        eType="#//AssignmentSetting"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Wrapper">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="System">
+    <eAnnotations source="OCL" references="#//System/testOperation"/>
+    <eOperations name="testOperation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assemblySettings" upperBound="-1"
+        eType="#//CompositionSetting"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supportedProtocols" lowerBound="1"
+        upperBound="-1" eType="#//Protocol"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignmentSettings" upperBound="-1"
+        eType="#//AssignmentSetting" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WrapperLink">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkedWrappers" lowerBound="2"
+        upperBound="-1" eType="#//Wrapper"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Registry">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfaces" upperBound="-1"
+        eType="#//Protocol" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+        eType="#//BuildingUnit" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Function">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputVariables" upperBound="-1"
+        eType="#//Variable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="returnedData" lowerBound="1"
+        eType="#//Data"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Variable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="data" lowerBound="1" eType="#//Data"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Data" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="VoidData" eSuperTypes="#//Data"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BasicType" eSuperTypes="#//Data">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataType" eType="#//BasicDataTypes"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AdvancedType" eSuperTypes="#//Data"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="BasicDataTypes">
+    <eLiterals name="Boolean"/>
+    <eLiterals name="Char" value="1"/>
+    <eLiterals name="Date" value="2"/>
+    <eLiterals name="Double" value="3"/>
+    <eLiterals name="Float" value="4"/>
+    <eLiterals name="List" value="5"/>
+    <eLiterals name="Int" value="6"/>
+    <eLiterals name="Long" value="7"/>
+    <eLiterals name="Map" value="8"/>
+    <eLiterals name="String" value="9"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositionSetting">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="buildingUnit" lowerBound="1"
+        eType="#//BuildingUnit"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AggregatedBuildingUnit" eSuperTypes="#//BuildingUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assemblySettings" upperBound="-1"
+        eType="#//CompositionSetting"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BasicComponent" eSuperTypes="#//BuildingUnit"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SupportedAdaptor" eSuperTypes="#//ProtocolAdaptor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Domain">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="wrapperlink" upperBound="-1"
+        eType="#//WrapperLink" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="wrappers" upperBound="-1"
+        eType="#//Wrapper" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssignmentSetting">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="wrapper" lowerBound="1"
+        eType="#//Wrapper"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assemblySetting" lowerBound="1"
+        eType="#//CompositionSetting"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NeededAdaptor" eSuperTypes="#//ProtocolAdaptor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CommunicationProtocol">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="neededProtocol" lowerBound="1"
+        eType="#//Protocol"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supportingProtocol" lowerBound="1"
+        eType="#//Protocol"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProcedureSpecification">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="procedures" upperBound="-1"
+        eType="#//AbstractProcedure" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EmbeddedProcedure" eSuperTypes="#//AbstractProcedure"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OutwardCallProcedure" eSuperTypes="#//AbstractProcedure">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredInterface" eType="#//NeededProtocol"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IterationProcedure" eSuperTypes="#//AbstractProcedure">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="loopedProcedures" upperBound="-1"
+        eType="#//AbstractProcedure"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ForkProcedure" eSuperTypes="#//AbstractProcedure">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="branchedProcedures" upperBound="-1"
+        eType="#//AbstractProcedure"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractProcedure" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SupportingProtocol" eSuperTypes="#//ActingProtocol"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NeededProtocol" eSuperTypes="#//ActingProtocol"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ActingProtocol" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="protocol" lowerBound="1"
+        eType="#//Protocol"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProtocolAdaptor" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="neededProtocol" lowerBound="1"
+        eType="#//ActingProtocol"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="role" lowerBound="1" eType="#//ActingProtocol"/>
+  </eClassifiers>
+</ecore:EPackage>

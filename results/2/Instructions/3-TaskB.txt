@@ -1,0 +1,12 @@
+Dauer: ca. 5 Minuten
+
+Beschreiben Sie nun kurz (gerne auch Stichworte), wie Sie bei der Verschleierung vorgegangen sind. Welche Änderungsarten haben Sie eingesetzt?
+
+[ANTWORT]
+
+- Name mancher Klassen wurde geändert
+- Bei delegation Konnektoren gab es unterklassen. die wurden gelöscht.
+- Kardinalitäten 
+- Name von Packagen 
+- mancher Teile wurden nicht geändert, da sie sich nicht anders sinnvoll modellieren lassen
+- package core wurde gelöscht 

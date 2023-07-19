@@ -1,0 +1,9 @@
+Dauer: ca. 5 Minuten
+
+Beschreiben Sie nun (gerne auch in Stichworten), wie Sie bei der Verschleierung vorgegangen sind. Welche Änderungsarten haben Sie eingesetzt?
+
+kleinere Umbenennungen der Klassen, Atrribute, Referenzen
+weitere Oberklassen eingefügt
+Unterklassen gelöscht und Attribute in die Oberklasse geschoben
+kleinere Strukturänderungen (z.B., dass Container nur noch über ContainerLink erreichbar ist)
+das meiste scheinen feststehende Palladio (?) Ausdrücke zu sein -> die zu ändern macht in dem Fall keinen Sinn

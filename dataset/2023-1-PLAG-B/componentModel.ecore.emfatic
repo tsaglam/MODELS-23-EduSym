@@ -1,0 +1,146 @@
+@namespace(uri="http://www.kit.edu", prefix="edu.kit")
+package componentModel;
+
+import "http://www.eclipse.org/emf/2003/XMLType";
+
+abstract class DataType {
+	attr type.String[1] name;
+}
+
+abstract class Behavior {
+}
+
+class Component extends RepositoryViewPoint {
+	attr type.String[1] name;
+	val BehaviorDescription contains;
+	ref Service[*] realizes;
+	ref Interface[+] provides;
+	ref Interface[*] requires;
+}
+
+class Service {
+	ref Signature[+] correspondsTo;
+}
+
+class CompositeComponents extends Component {
+	ref AssemblyContext[+] encapsulates;
+}
+
+class AssemblyContext extends AllocationViewPoint, AssemblyViewPoint {
+	attr type.String[1] name;
+	ref Component[1] instantiates;
+	ref Role[*] requires;
+	ref Role[*] provides;
+}
+
+class System {
+	val AssemblyContext[+] encapsulates;
+	ref Interface[+] provides;
+}
+
+class BehaviorDescription {
+	val Behavior[*] contains;
+}
+
+class Collection extends DataType {
+	val DataType[+] typeParameter;
+}
+
+class CompositeType extends DataType {
+	val DataType[+] contains;
+}
+
+class AllocationView {
+	val AllocationViewPoint[*] allocationViewMembers;
+}
+
+class EnvironmentView {
+	val EnvironmentViewPoint[*] environmentViewMembers;
+}
+
+class AssemblyView {
+	val AssemblyViewPoint[*] assemblyViewMembers;
+}
+
+class RepositoryView {
+	val RepositoryViewPoint[*] repositoryViewMembers;
+}
+
+class Interface extends AssemblyViewPoint, RepositoryViewPoint {
+	attr type.String[1] name;
+	val Signature[+] consistsOf;
+}
+
+class Link extends EnvironmentViewPoint {
+	attr type.String[1] name;
+	val Container[2..*] links;
+}
+
+class Signature {
+	attr type.String[1] name;
+	val DataType[1] returnType;
+	val Parameter[*] has;
+}
+
+class ExternalCall extends Behavior {
+	val Service[1] requiredService;
+}
+
+class AssemblyConnector {
+	val Role[1] requiredRole;
+	ref Role[1] providedRole;
+}
+
+class Interface2RoleConnector extends AssemblyViewPoint {
+	ref Role[1] linksTo;
+	ref Interface[1] links;
+}
+
+class Role2InterfaceConnector extends AssemblyViewPoint {
+	ref Role[1] links;
+	ref Interface[1] linksTo;
+}
+
+class AllocationContext extends AllocationViewPoint {
+	ref AssemblyContext[1] maps;
+	ref Container[1] mapsTo;
+}
+
+class Role extends AssemblyViewPoint {
+	attr type.String[1] name;
+	ref Interface[1] impliedBy;
+}
+
+class Parameter {
+	attr type.String[1] name;
+	ref DataType[1] type;
+}
+
+class Container extends AllocationViewPoint, EnvironmentViewPoint {
+	attr type.String[1] name;
+}
+
+class InternalAction extends Behavior {
+}
+
+class Branch extends Behavior {
+}
+
+class Loop extends Behavior {
+}
+
+class PrimitiveType extends DataType {
+}
+
+class AllocationViewPoint {
+}
+
+class EnvironmentViewPoint {
+}
+
+class AssemblyViewPoint {
+}
+
+class RepositoryViewPoint {
+}
+

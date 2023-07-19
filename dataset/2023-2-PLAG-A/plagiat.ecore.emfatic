@@ -1,0 +1,213 @@
+@"http://www.eclipse.org/OCL/Import"(ecore="http://www.eclipse.org/emf/2002/Ecore")
+@namespace(uri="http://metaModel", prefix="metaModel")
+package metaModel;
+
+@namespace(uri="http://unnoetig", prefix="metamodel.unnoetig")
+package schlechtDeutschVersion {
+	class EinzelteilBasiertesSystem {
+		!resolve val ansichten.endlagerstaette.Endlagerstaette[*] endlagerstaetten;
+		!resolve val ansichten.umwelt.Umwelt[*] umwelten;
+		!resolve val ansichten.versammlung.System[*] aufbaue;
+		!resolve val ansichten.zuteilung.ZuteilungsHintergrund[*] zuteilungsHintergruende;
+	}
+
+	@namespace(uri="http://metaModel/unnoetig/ansichten", prefix="metaModel.unnoetig.ansichten")
+	package ansichten {
+		abstract class BenannterBestandteil {
+			attr String[1] name;
+		}
+
+		@namespace(uri="http://metaModel/unnoetig/ansichten/endlagerstaette", prefix="metaModel.unnoetig.ansichten.endlagerstaette")
+		package endlagerstaette {
+			abstract class EinfacherTyp extends ParameterTyp {
+			}
+
+			abstract class Typ {
+			}
+
+			abstract class ParameterTyp extends Typ {
+			}
+
+			class Verhaltensbeschreibung {
+				!resolve val InterneHandlung[*] internalActions;
+				!resolve val ExternerAufruf[*] externalCalls;
+				!resolve val Schleife[*] loops;
+				!resolve val Zweig[*] branches;
+			}
+
+			class KomplexerTyp extends ParameterTyp {
+				!resolve val ParameterTyp[+] types;
+			}
+
+			class Endlagerstaette extends BenannterBestandteil {
+				!resolve val Einzelteil[*] components;
+				!resolve val Schnittstelle[*] interfaces;
+			}
+
+			class Schnittstelle extends BenannterBestandteil {
+				!resolve val Signatur[*] signatures;
+				ref Endlagerstaette endlagerstaette;
+			}
+
+			class InterneHandlung {
+			}
+
+			class ExternerAufruf {
+			}
+
+			class Schleife {
+			}
+
+			class Zweig {
+			}
+
+			class LeererTyp extends Typ {
+			}
+
+			class Einzelteil extends BenannterBestandteil {
+				!resolve val Verhaltensbeschreibung description;
+				ref Schnittstelle[*] requires;
+				ref Schnittstelle[*] provides;
+			}
+
+			class Parameter extends BenannterBestandteil {
+				!resolve val ParameterTyp[1] type;
+			}
+
+			class Signatur extends BenannterBestandteil {
+				!resolve val Typ[1] returnType;
+				!resolve val Parameter[*] parameters;
+			}
+
+			class Kartentyp extends EinfacherTyp {
+				transient attr EEList<?> type;
+			}
+
+			class SchnurTyp extends EinfacherTyp {
+				attr String type;
+			}
+
+			class BoolTyp extends EinfacherTyp {
+				attr Boolean type;
+			}
+
+			class IntTyp extends EinfacherTyp {
+				attr Integer type;
+			}
+
+			class ListenTyp extends EinfacherTyp {
+				transient attr EEList<?>[1] List;
+			}
+
+			class DatumsTyp extends EinfacherTyp {
+				attr EDate[1] type;
+			}
+
+			class LangTyp extends EinfacherTyp {
+				attr Long[1] type;
+			}
+
+			class TreibTyp extends EinfacherTyp {
+				attr Float[1] type;
+			}
+
+			class CharTyp extends EinfacherTyp {
+				attr Character[1] type;
+			}
+
+		}
+
+		@namespace(uri="http://metaModel/unnoetig/ansichten/umwelt", prefix="metaModel.unnoetig.ansichten.umwelt")
+		package umwelt {
+			class Umwelt {
+				!resolve val Behaelter[*] containers;
+				!resolve val Verbindung[*] links;
+			}
+
+			class Verbindung extends BenannterBestandteil {
+				ref Behaelter[2..*]#verbindung behaelter;
+			}
+
+			class Behaelter extends BenannterBestandteil {
+				ref zuteilung.ZuteilungsHintergrund[*]#behaelter zuteilungsHintergrund;
+				ref Verbindung[*]#behaelter verbindung;
+			}
+
+		}
+
+		@Ecore(invocationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL", settingDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL", validationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL")
+		@namespace(uri="http://metaModel/unnoetig/ansichten/versammlung", prefix="metaModel.unnoetig.ansichten.versammlung")
+		package versammlung {
+			abstract class DelegationsVerbinder {
+				ref endlagerstaette.Schnittstelle[1] linkedInterface;
+			}
+
+			abstract class Rolle extends BenannterBestandteil {
+			}
+
+			@Ecore(constraints="assemblyContextFromInnerComponentsOfCompositeComponentCantBeAllocated")
+			@"http://www.eclipse.org/emf/2002/Ecore/OCL"(assemblyContextFromInnerComponentsOfCompositeComponentCantBeAllocated="self.instantiatedComponent.oclIsTypeOf(versammlung::CompositeComponent) implies self.instantiatedComponent.oclAsType(versammlung::CompositeComponent).encapsulatedInstances -> forAll(zuteilungsHintergrund = null)")
+			class ZusammenbauZusammenhang extends BenannterBestandteil {
+				!resolve val BenoetigteRolle[*]#zusammenbauZusammenhang benoetigt;
+				!resolve val GegebeneRolle[*]#zusammenbauZusammenhang bietet;
+				ref endlagerstaette.Einzelteil[1] instantiatedComponent;
+				ref zuteilung.ZuteilungsHintergrund zuteilungsHintergrund;
+			}
+
+			@Ecore(constraints="connectedAssemblyContextsShouldBeAllocatedToSameContainerOrToLinkedContainers")
+			@"http://www.eclipse.org/emf/2002/Ecore/OCL"(connectedAssemblyContextsShouldBeAllocatedToSameContainerOrToLinkedContainers="not (self.GegebeneRolle.ZusammenbauZusammenhang.zuteilungsHintergrund = null) and not (self.providedRole.ZusammenbauZusammenhang.zuteilungsHintergrund = null) implies self.GegebeneRolle.ZusammenbauZusammenhang.zuteilungsHintergrund.container = self.providedRole.ZusammenbauZusammenhang.zuteilungsHintergrund.container or self.GegebeneRolle.ZusammenbauZusammenhang.zuteilungsHintergrund.container.links -> exists(link | link.containers -> includes(self.providedRole.ZusammenbauZusammenhang.zuteilungsHintergrund.container))")
+			class ZusammenbauVerbinder {
+				ref BenoetigteRolle[1]#zusammenbauVerbinder benoetigteRolle;
+				ref GegebeneRolle[1]#zusammenbauVerbinder gegebeneRolle;
+			}
+
+			class GegebeneRolle extends Rolle {
+				ref DelegationsVerbinderBenoetigt#linkedRole delegierenderVerbinder;
+				ref ZusammenbauVerbinder#gegebeneRolle zusammenbauVerbinder;
+				ref ZusammenbauZusammenhang[1]#bietet zusammenbauZusammenhang;
+			}
+
+			class DelegationsVerbinderBenoetigt extends DelegationsVerbinder {
+				ref GegebeneRolle[1]#delegierenderVerbinder linkedRole;
+			}
+
+			class BenoetigteRolle extends Rolle {
+				ref DelegierenderVerbinderBenoetigt#linkedRole delegierenderVerbinder;
+				ref ZusammenbauVerbinder#benoetigteRolle zusammenbauVerbinder;
+				ref ZusammenbauZusammenhang[1]#benoetigt zusammenbauZusammenhang;
+			}
+
+			class DelegierenderVerbinderBenoetigt extends DelegationsVerbinder {
+				ref BenoetigteRolle[1]#delegierenderVerbinder linkedRole;
+			}
+
+			@Ecore(constraints="ofOtherComponent")
+			@"http://www.eclipse.org/emf/2002/Ecore/OCL"(ofOtherComponent="self.encapsulatedInstances -> select(instance | instance.instantiatedComponent = self)->size() = 0")
+			class EinzelteilZusammensetungsKomponenete extends endlagerstaette.Einzelteil {
+				ref ZusammenbauZusammenhang[+] eingekapselteInstanz;
+			}
+
+			@Ecore(constraints="providedInterfacesShouldMatchProvidedRolesOfInstances")
+			@"http://www.eclipse.org/emf/2002/Ecore/OCL"(providedInterfacesShouldMatchProvidedRolesOfInstances="self.encapsulatedInstances.instantiatedComponent.provides -> includesAll(self.provides -> asSet())")
+			class System {
+				!resolve val ZusammenbauZusammenhang[+] eingekapselteInstanz;
+				!resolve val DelegationsVerbinder[*] delegationsVerbinders;
+				!resolve val ZusammenbauVerbinder[*] ZusammenbauVerbinders;
+				ref endlagerstaette.Schnittstelle[+] bietet;
+			}
+
+		}
+
+		@namespace(uri="http://metaModel/unnoetig/ansichten/zuteilung", prefix="metaModel.unnoetig.ansichten.zuteilung")
+		package zuteilung {
+			class ZuteilungsHintergrund extends BenannterBestandteil {
+				ref versammlung.ZusammenbauZusammenhang[1] zusammenbauZusammenhang;
+				ref umwelt.Behaelter[1]#zuteilungsHintergrund behaelter;
+			}
+
+		}
+
+	}
+
+}
+

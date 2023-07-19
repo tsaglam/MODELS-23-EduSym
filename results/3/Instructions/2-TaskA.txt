@@ -1,0 +1,14 @@
+Dauer: maximal 20 Minuten
+
+Stellen Sie sich vor, Sie müssten im MDSD-Praktikum in Einzelarbeit arbeiten. Die Abgabe des Metamodells steht bevor.
+Sie wollen jedoch das Metamodell nicht selbständig erstellen und haben Zugang zu einer Lösung eines Kommilitonen.
+Deswegen entscheiden Sie sich, die Lösung des Kommilitonen zu plagiieren.
+Ihr Ziel ist hierbei, die Lösung so abzuändern, dass es dem Dozenten nicht auffällt, dass es sich um ein Plagiat handelt.
+Dennoch soll das veränderte Metamodell die Aufgabenstellung lösen.
+
+1. Erstellen Sie eine Kopie des Metamodells im "model" Ordner (falls es aus mehreren Ecore-Dateien besteht, kopieren Sie alle in einen Unterordner "plagiat").
+
+2. Verändern Sie nun die Kopie, um den Plagiarismus zu verschleiern. Sie können entweder die Ecore-Datei direkt über den Tree-Editor verändern oder optional einen grafische Repräsentation nutzen.
+   Gehen Sie jedoch davon aus, dass der Prüfer nur die Ecore-Datei selbst für die Bewertung nutzt. Änderungen, die nur die grafische Repräsentation betreffen sind also irrelevant.
+
+3. Stellen Sie sicher, dass die Änderungen gespeichert wurden und die Ecore-Datei betreffen.
