@@ -20,6 +20,10 @@ hs_err_pid*
 # VSCode
 .vscode/
 
+# RStudio
+.Rproj.user
+.Rhistory
+plots.Rproj
 
 # macOS
 *.DS_Store
